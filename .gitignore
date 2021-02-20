@@ -1,0 +1,8 @@
+wals_ml_engine/dist
+wals_ml_engine/jobs/*
+wals_ml_engine/wals_ml_engine.egg-info
+wals_ml_engine/trainer/__pycache__
+wals_ml_engine/trainer/*.pyc
+wals_ml_engine/scripts/
+wals_ml_engine/.DS_Store
+wals_ml_engine/trainer/__pycache__/__init__.cpython-37.pyc
