@@ -79,7 +79,7 @@ def create_test_and_train_sets(args, input_file, data_type='ratings'):
 def _groups_train_and_test(input_file):
   """Load page views dataset, and create train and set sparse matrices.
 
-  Assumes 'subscriberId', 'groupId', and 'ratting' columns.
+  Assumes 'userId', 'itemId', and 'ratting' columns.
 
   Args:
     input_file: path to csv data file
@@ -92,12 +92,12 @@ def _groups_train_and_test(input_file):
   """
   views_df = pd.read_csv(input_file, sep=',', header=0)
 
-  df_items = pd.DataFrame({'groupId': views_df.groupId.unique()})
-  df_sorted_items = df_items.sort_values('groupId').reset_index()
-  pds_items = df_sorted_items.groupId
+  df_items = pd.DataFrame({'itemId': views_df.itemId.unique()})
+  df_sorted_items = df_items.sort_values('itemId').reset_index()
+  pds_items = df_sorted_items.itemId
 
   # preprocess data. df.groupby.agg sorts clientId and contentId
-  df_user_items = views_df.groupby(['subscriberId', 'groupId']
+  df_user_items = views_df.groupby(['userId', 'itemId']
                                   ).agg({'rating': 'sum'})
 
   # create a list of (userId, itemId, timeOnPage) ratings, where userId and
@@ -133,11 +133,11 @@ def _groups_train_and_test(input_file):
   return user_ux, pds_items.as_matrix(), tr_sparse, test_sparse
 
 def get_user_items_w(input_file):
-  """Get a JSON WOLF model where groups array mapped to subscriberId.
+  """Get a JSON WOLF model where groups array mapped to userId.
 
   """
   views_df = pd.read_csv(input_file, sep=',', header=0)
-  user_items_w = views_df.groupby('subscriberId')['groupId'].apply(list).reset_index(name='items') 
+  user_items_w = views_df.groupby('userId')['itemId'].apply(list).reset_index(name='items') 
   
   return user_items_w
 
